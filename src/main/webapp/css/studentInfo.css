@@ -1,0 +1,143 @@
+/* 基本样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center; /* 居中对齐容器内的内容 */
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 学生信息表单样式 */
+#studentForm .form-group {
+    margin-bottom: 15px;
+    display: inline-flex; /* 使用 inline-flex 使表单组内联居中 */
+    align-items: center;
+    justify-content: center; /* 水平居中对齐 */
+    text-align: left; /* 标签左对齐 */
+}
+
+#studentForm .form-group label {
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#studentForm .form-group input[type="text"],
+#studentForm .form-group select,
+#studentForm .form-group input[type="password"] {
+    width: 250px; /* 调整文本框长度 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#studentForm .form-group input[readonly] {
+    background-color: #f9f9f9;
+    cursor: not-allowed; /* 禁用输入框的光标样式 */
+    border-color: #ddd;
+}
+
+/* 修改密码表单样式 */
+#passwordForm .form-group {
+    /* 增加表单组之间的间距 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 使标签和输入框之间有适当间距 */
+    max-width: 400px; /* 限制表单组的最大宽度 */
+    margin: 10px auto; /* 使表单组居中 */
+}
+
+#passwordForm .form-group label {
+    width: 120px; /* 固定标签宽度 */
+    text-align: right; /* 标签右对齐 */
+    margin-right: 20px; /* 增加标签和输入框之间的间距 */
+    font-weight: bold;
+    white-space: nowrap; /* 防止标签文字换行 */
+}
+
+#passwordForm .form-group input[type="password"] {
+    width: 100%; /* 使输入框占满剩余空间 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* 其他样式 */
+hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 20px 0;
+}
+
+/* 表单区域的间距和对齐 */
+#studentForm, #passwordForm {
+    margin-bottom: 30px;
+    text-align: center; /* 表单区域内容居中对齐 */
+}
+
+/* 表单按钮的对齐 */
+#studentForm button, #passwordForm button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+/* 返回按钮的对齐 */
+button[onclick="goBack()"] {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}

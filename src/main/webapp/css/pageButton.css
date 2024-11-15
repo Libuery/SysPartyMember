@@ -1,0 +1,129 @@
+/* 分页容器 */
+#pagination {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+/* 分页按钮样式 */
+#pagination button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background-color: #f7f7f7;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s ease;
+}
+
+/* 按钮的悬停效果 */
+#pagination button:hover {
+    background-color: #007bff;
+    color: white;
+    transform: scale(1.1);  /* 悬停时按钮放大 */
+}
+
+/* 当前页的按钮（选中状态） */
+#pagination button.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);  /* 激活时按钮添加阴影 */
+}
+
+/* 禁用按钮样式 */
+#pagination button:disabled {
+    background-color: #f0f0f0;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* 上一页/下一页按钮样式 */
+#pagination button.prev,
+#pagination button.next {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+/* 上一页/下一页按钮悬停效果 */
+#pagination button.prev:hover,
+#pagination button.next:hover {
+    background-color: #0056b3;
+}
+
+/* 分页容器中的箭头按钮 */
+#pagination button.prev::before,
+#pagination button.next::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;  /* 默认的箭头样式 */
+}
+
+/* 上一页箭头样式 */
+#pagination button.prev::before {
+    border-top: 5px solid #fff;
+    margin-right: 8px;
+    transform: rotate(180deg); /* 翻转箭头 */
+}
+
+/* 下一页箭头样式 */
+#pagination button.next::before {
+    border-top: 5px solid #fff;
+    margin-left: 8px;
+}
+
+/* 使按钮之间有间隔 */
+#pagination button:not(:last-child) {
+    margin-right: 10px;
+}
+
+
+/* 每页显示条数选择框 */
+#pageSizeSelect {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 优化选择框外观 */
+#pageSizeSelect label {
+    font-size: 16px;
+    color: #333;
+    margin-right: 10px;
+}
+
+/* 选择框样式 */
+#pageSizeSelect select {
+    padding: 8px 15px;
+    border-radius: 25px;
+    border: 1px solid #007bff;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* 选择框聚焦效果 */
+#pageSizeSelect select:focus {
+    outline: none;
+    border-color: #0056b3;
+    background-color: #f0f8ff;
+}
+
+/* 选择框的悬停效果 */
+#pageSizeSelect select:hover {
+    background-color: #e6f1ff;
+}
+
+/* 使选择框具有阴影效果 */
+#pageSizeSelect select:focus {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buyi.mapper.TrainMapper">
+
+    <update id="update" parameterType="com.buyi.entity.Train">
+        UPDATE uml.train
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="term != null">term = #{term},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="count != null">`count` = #{count},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="status != null">`status` = #{status}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

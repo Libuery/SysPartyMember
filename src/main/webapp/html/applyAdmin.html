@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申请管理</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/page.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/pageButton.css">
+    <script>
+        let currentPage = 1;  // 当前页
+        let pageSize = 5;   // 每页数据条数
+
+        $(function () {
+            $("#header-placeholder").load("header.html");
+        });
+
+        $(document).ready(function () {
+            loadData(currentPage, pageSize);
+        });
+
+        function loadData(page, size) {
+            $.ajax({
+                url: `../apply/page?page=${page}&size=${size}`,
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        let tableBody = $('#applyTable tbody');
+                        tableBody.empty();
+                        let data = result.data.data
+                        if (data && data.length !== 0) {
+                            data.forEach(apply => {
+                                let type = "系统错误"
+                                if (apply.type === 0) {
+                                    type = "申请积极分子"
+                                } else if (apply.type === 1) {
+                                    type = "申请预备党员"
+                                } else if (apply.type === 2) {
+                                    type = "申请党员"
+                                }
+
+                                let status = "系统错误"
+                                if (apply.status === 0) {
+                                    status = "待审核"
+                                } else if (apply.status === 1) {
+                                    status = `<span style="color:green">审核通过</span>`
+                                } else if (apply.status === 2) {
+                                    status = `<span style="color:red">审核未通过</span>`
+                                }
+                                if (apply.status === 0) {
+                                    tableBody.append(`
+                                <tr>
+                                    <td>${apply.id}</td>
+                                    <td>${apply.sid}</td>
+                                    <td>${apply.sname}</td>
+                                    <td>${type}</td>
+                                    <td>${apply.content}</td>
+                                    <td>${status}</td>
+                                    <td>
+                                    <button onclick="pass(${apply.id}, 1)" style="background-color:green">批准</button>
+                                    <button onclick="pass(${apply.id}, 2)" style="background-color:red">否决</button>
+                                    </td>
+                                </tr>
+                            `)
+                                } else {
+                                    tableBody.append(`
+                                <tr>
+                                    <td>${apply.id}</td>
+                                    <td>${apply.sid}</td>
+                                    <td>${apply.sname}</td>
+                                    <td>${type}</td>
+                                    <td>${apply.content}</td>
+                                    <td>${status}</td>
+                                    <td>无</td>
+                                </tr>
+                            `)
+                                }
+
+                            });
+                        } else {
+                            tableBody.append(`<tr><td colspan="7">暂无数据</td></tr>`)
+                        }
+
+                        // 显示总条数
+                        $('#totalCount').html(`共 ${result.data.total} 条数据`);
+
+                        // 生成分页按钮
+                        generatePagination(result.data.total, result.data.page, result.data.size);
+                    }else {
+                        alert(result.msg)
+                    }
+                }
+            });
+        }
+
+        function pass(id, pass) {
+            let msg = pass === 1 ? "是否确认批准" : "是否确认否决";
+            let flag = confirm(msg)
+            if (flag) {
+                $.ajax({
+                    url: `../apply/audit?id=${id}&status=${pass}`,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.code === 200) {
+                            alert("操作成功");
+                            loadData(currentPage, pageSize);
+                        }else {
+                            alert(result.msg)
+                        }
+                    },
+                    error: function () {
+                        alert("网络异常");
+                    }
+                });
+            }
+        }
+    </script>
+    <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<div class="admin-container">
+    <h2>管理学生申请</h2>
+    <table id="applyTable">
+        <thead>
+        <tr>
+            <th>申请号</th>
+            <th>申请人学号</th>
+            <th>申请人</th>
+            <th>申请类型</th>
+            <th>申请信息</th>
+            <th>申请阶段</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="defaultTr">
+            <th colspan="6">暂无数据</th>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 每页显示条数选择框 -->
+    <div id="pageSizeSelect">
+        <label for="pageSize">每页显示条数：</label>
+        <select id="pageSize" onchange="changePageSize()">
+            <option value="5">5条</option>
+            <option value="10">10条</option>
+            <option value="50">50条</option>
+            <option value="100">100条</option>
+        </select>
+    </div>
+    <!-- 显示总条数 -->
+    <div id="totalCount" style="text-align: center; margin-top: 10px; font-size: 16px; color: #555;"></div>
+    <!-- 分页按钮 -->
+    <div id="pagination"></div>
+</div>
+</body>
+</html>

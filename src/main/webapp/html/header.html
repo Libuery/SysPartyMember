@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css" rel="stylesheet">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #header{
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .nav-header{
+            margin: auto;
+            width: 100%;
+            box-sizing: border-box;
+            height: 53px;
+            background-color: rgba(207,238,238,0.5);
+            border: 2px solid rgb(207,238,238);
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            color: darkorange;
+        }
+        #login li,ul li{
+            list-style-type: none;
+            display:inline;
+            margin-top: 0px;
+        }
+        #login{
+            float:right;
+        }
+    </style>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/header.js" charset="UTF-8"></script>
+</head>
+<body>
+<div id="header">
+    <div id="logo">
+        <img src="../img/logo.png" height="40"/>
+        <img src="../img/header.png" height="40"/>
+    </div>
+    <div class="nav-header">
+        <div id="login" style="float: right;margin-right: 10px"></div>
+        <div id="categories" style="float: left"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/login.js" charset="UTF-8"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            float: right;
+            margin-right: 100px;
+            background-image: url("../img/back.jpg");
+            background-size: cover; /* 确保背景图像覆盖整个容器 */
+            background-position: center; /* 背景图像居中对齐 */
+            background-repeat: no-repeat; /* 不重复背景图像 */
+        }
+        .login-container {
+            background-color: rgba(255,255,255,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>登录</h2>
+    <form id="form1">
+        <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" value="admin" required>
+        </div>
+        <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" value="admin" required>
+        </div>
+        <div class="form-group">
+            记住我:
+            <input type="checkbox" id="auto" name="auto">
+        </div>
+        <button type="button" style="margin-bottom: 5px" onclick="login()">登录</button>
+        <a href="register.html">没有账号？</a>
+    </form>
+    <div id="message"></div>
+</div>
+</body>
+</html>

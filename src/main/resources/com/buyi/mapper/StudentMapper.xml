@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buyi.mapper.StudentMapper">
+
+    <insert id="insert">
+        insert into uml.student (name, sex, clazz, phone, department, major, identity, status)
+        values (#{name}, #{sex}, #{clazz}, #{phone}, #{department}, #{major}, #{identity}, #{status})
+    </insert>
+    <update id="update">
+        update uml.student
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="clazz != null and clazz != ''">clazz = #{clazz},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="department != null and department != ''">department = #{department},</if>
+            <if test="major != null and major != ''">major = #{major},</if>
+            <if test="identity != null and identity != ''">identity = #{identity},</if>
+            <if test="status != null and status != ''">status = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

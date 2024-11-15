@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <title>注册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            float: right;
+            margin-right: 100px;
+            background-image: url("../img/back.jpg");
+            background-size: cover; /* 确保背景图像覆盖整个容器 */
+            background-position: center; /* 背景图像居中对齐 */
+            background-repeat: no-repeat; /* 不重复背景图像 */
+        }
+        .register-container {
+            background-color: rgba(255,255,255,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #b1 {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #b1:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="register-container">
+    <h2>注册</h2>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="studentId">学号:</label>
+            <input type="text" id="studentId" name="sid" required>
+        </div>
+        <input id="b1" type="button" style="margin-bottom: 5px" onclick="register()" value="注册"/>
+        <a href="login.html">去登录</a>
+    </form>
+    <div id="message"></div>
+</div>
+<script>
+    function register() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "../user/register" ,//url
+            data: $('#registerForm').serialize(),
+            success: function (result) {
+                if (result.code === 200) {
+                    alert("注册成功");
+                    window.location.href = '../html/login.html';
+                } else {
+                    alert(result.msg)
+                }
+            },
+            error: function() {
+                alert("系统异常");
+            }
+        });
+    }
+</script>
+</body>
+</html>

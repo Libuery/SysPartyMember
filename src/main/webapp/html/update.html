@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改学生信息</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/update.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .admin-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        label {
+            width: 20%;
+            margin-right: 10px;
+        }
+
+        input[type="text"], input[type="tel"], select {
+            width: 75%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<div class="admin-container">
+    <h2>修改学生信息</h2>
+    <form id="studentForm">
+        <input type="hidden" id="id" name="id" required>
+        <div class="form-group">
+            <label for="studentName">姓名:</label>
+            <input type="text" id="studentName" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="gender">性别:</label>
+            <select id="gender" name="sex" required>
+                <option value="男">男</option>
+                <option value="女">女</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="class">班级:</label>
+            <input type="text" id="class" name="clazz" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">手机号:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="department">院系:</label>
+            <input type="text" id="department" name="department" required>
+        </div>
+        <div class="form-group">
+            <label for="major">专业:</label>
+            <input type="text" id="major" name="major" required>
+        </div>
+        <div class="form-group">
+            <label for="idNumber">身份证号:</label>
+            <input type="text" id="idNumber" name="identity" required>
+        </div>
+        <div class="form-group">
+            <label for="partyStage">入党状态:</label>
+            <select id="partyStage" name="status" required>
+                <option value="0">普通学生</option>
+                <option value="1">积极分子</option>
+                <option value="2">预备党员</option>
+                <option value="3">党员</option>
+            </select>
+        </div>
+        <button type="button" onclick="update()">修改</button>
+        <button type="reset">重置</button>
+        <button type="button" onclick="window.location.href = 'admin.html'">取消</button>
+    </form>
+</div>
+
+<script>
+    function update() {
+        $.ajax({
+            url: '../student/updateAdmin',
+            type: 'POST',
+            data: $('#studentForm').serialize(),
+            success: function (result) {
+                if (result.code === 200) {
+                    alert("操作成功");
+                    window.location.href = 'admin.html';
+                }else {
+                    alert(result.msg)
+                }
+            },
+            error: function () {
+                alert("网络异常");
+            }
+        });
+    }
+</script>
+</body>
+</html>

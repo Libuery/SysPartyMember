@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生申请</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/page.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/pageButton.css">
+    <script>
+        let currentPage = 1;  // 当前页
+        let pageSize = 5;   // 每页数据条数
+
+        $(function () {
+            $("#header-placeholder").load("header.html");
+        });
+
+        $(document).ready(function () {
+            loadData(currentPage, pageSize);
+        });
+
+        function loadData(page, size) {
+            $.ajax({
+                url: `../apply/pageOne?page=${page}&size=${size}`,
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        let data = result.data.data
+                        let tableBody = $('#applyTable tbody');
+                        tableBody.empty();
+                        if (data && data.length !== 0) {
+                            data.forEach(apply => {
+                                let status = "系统错误"
+                                if (apply.status === 0) {
+                                    status = "审核中"
+                                } else if (apply.status === 1) {
+                                    status = `<span style="color:green">审核通过</span>`
+                                } else if (apply.status === 2) {
+                                    status = `<span style="color:red">审核未通过</span>`
+                                }
+                                let type = "系统错误"
+                                if (apply.type === 0) {
+                                    type = "申请积极分子"
+                                }else if(apply.type === 1){
+                                    type = "申请预备党员"
+                                }else if(apply.type === 2){
+                                    type = "申请党员"
+                                }
+
+                                if (apply.status === 0) {
+                                    tableBody.append(`
+                                <tr>
+                                    <td>${apply.id}</td>
+                                    <td>${type}</td>
+                                    <td>${apply.content}</td>
+                                    <td>${status}</td>
+                                    <td>
+                                    <button onclick="window.location.href = 'updateApply.html?id=${apply.id}&content=${apply.content}'">修改</button>
+                                    <button onclick="deleteApply(${apply.id})">撤回</button>
+                                    </td>
+                                </tr>
+                            `)
+                                } else {
+                                    tableBody.append(`
+                                <tr>
+                                    <td>${apply.id}</td>
+                                    <td>${type}</td>
+                                    <td>${apply.content}</td>
+                                    <td>${status}</td>
+                                    <td>无</td>
+                                </tr>
+                            `)
+                                }
+                            });
+                        } else {
+                            tableBody.append(`<tr><td colspan="5">暂无数据</td></tr>`)
+                        }
+
+                        // 显示总条数
+                        $('#totalCount').html(`共 ${result.data.total} 条数据`);
+
+                        // 生成分页按钮
+                        generatePagination(result.data.total, result.data.page, result.data.size);
+                    }else {
+                        alert(result.msg)
+                    }
+
+
+                }
+            });
+        }
+        function deleteApply(id) {
+            let flag = confirm("是否确认撤回？")
+            if (flag) {
+                $.ajax({
+                    url: `../apply/delete/${id}`,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.code === 200) {
+                            alert("操作成功");
+                            loadData(currentPage, pageSize);
+                        }else {
+                            alert(result.msg)
+                        }
+                    },
+                    error: function () {
+                        alert("网络异常");
+                    }
+                });
+            }
+        }
+    </script>
+    <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<div class="admin-container">
+    <h2>我的申请信息</h2>
+    <div class="form-group">
+        <button id="addStudent" onclick="window.location.href = 'addApply.html'">申请进入下一阶段</button>
+    </div>
+    <table id="applyTable">
+        <thead>
+        <tr>
+            <th>申请号</th>
+            <th>申请类型</th>
+            <th>申请信息</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="defaultTr">
+            <th colspan="5">暂无数据</th>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 每页显示条数选择框 -->
+    <div id="pageSizeSelect">
+        <label for="pageSize">每页显示条数：</label>
+        <select id="pageSize" onchange="changePageSize()">
+            <option value="5">5条</option>
+            <option value="10">10条</option>
+            <option value="50">50条</option>
+            <option value="100">100条</option>
+        </select>
+    </div>
+    <!-- 显示总条数 -->
+    <div id="totalCount" style="text-align: center; margin-top: 10px; font-size: 16px; color: #555;"></div>
+    <!-- 分页按钮 -->
+    <div id="pagination"></div>
+</div>
+</body>
+</html>

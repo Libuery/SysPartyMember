@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            width: 100px; /* Adjust based on your needs */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function () {
+            $("#header-placeholder").load("header.html");
+        });
+        $(document).ready(function () {
+            loadData();
+        });
+
+        function loadData() {
+            $.ajax({
+                url: '../user/loginStatus',
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 200) {
+                        let statusStr = "普通学生";
+                        if (result.data.status === 0) {
+                            statusStr = "普通学生"
+                        } else if (result.data.status === 1) {
+                            statusStr = "积极分子"
+                        } else if (result.data.status === 2) {
+                            statusStr = "预备党员"
+                        } else if (result.data.status === 3) {
+                            statusStr = "党员"
+                        }
+                        $('#status').html(statusStr)
+                    } else {
+                        alert("网络问题")
+                    }
+                },
+                error: function () {
+                    alert("系统错误")
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<h2 style="text-align: center">欢迎使用党员系统</h2>
+<hr>
+<div class="form-group">
+    <h3>您的现在身份是：<span style="color: #28a745" id="status">普通学生</span></h3>
+    <button id="addStudent" onclick="window.location.href = 'addApply.html'">申请进入下一阶段</button>
+</div>
+<hr>
+<h4>党员发展阶段： 普通学生 -> 积极分子 -> 预备党员 -> 党员</h4>
+<h5>注：培训分不足80分不能申请预备党员，培训分不足160分不能申请党员</h5>
+</body>
+</html>

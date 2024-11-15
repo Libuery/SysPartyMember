@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/page.js"></script>
+    <script src="../js/admin.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/pageButton.css">
+
+    <style>
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<div class="admin-container">
+    <h2>学生信息管理</h2>
+    <div class="form-group">
+        <button id="addStudent" onclick="window.location.href = 'add.html'">添加学生</button>
+    </div>
+    <table id="studentsTable">
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>班级</th>
+            <th>电话号码</th>
+            <th>院系</th>
+            <th>专业</th>
+            <th>身份证号</th>
+            <th>入党阶段</th>
+            <th>培训分</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="defaultTr">
+            <th colspan="10">暂无数据</th>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 每页显示条数选择框 -->
+    <div id="pageSizeSelect">
+        <label for="pageSize">每页显示条数：</label>
+        <select id="pageSize" onchange="changePageSize()">
+            <option value="5">5条</option>
+            <option value="10">10条</option>
+            <option value="50">50条</option>
+            <option value="100">100条</option>
+        </select>
+    </div>
+    <!-- 显示总条数 -->
+    <div id="totalCount" style="text-align: center; margin-top: 10px; font-size: 16px; color: #555;"></div>
+    <!-- 分页按钮 -->
+    <div id="pagination"></div>
+
+</div>
+</body>
+</html>

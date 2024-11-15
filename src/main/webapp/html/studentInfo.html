@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>学生信息</title>
+    <link rel="stylesheet" href="../css/studentInfo.css">
+</head>
+<body>
+<div class="container">
+    <h1>学生信息</h1>
+    <form id="studentForm">
+        <div class="form-group">
+            <label for="id">学号:</label>
+            <input type="text" id="id" readonly>
+        </div>
+        <div class="form-group">
+            <label for="name">姓名:</label>
+            <input type="text" id="name">
+        </div>
+        <div class="form-group">
+            <label for="sex">性别:</label>
+            <select id="sex" name="sex" required>
+                <option value="男">男</option>
+                <option value="女">女</option>
+                <option value="其他">其他</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="clazz">班级:</label>
+            <input type="text" id="clazz">
+        </div>
+        <div class="form-group">
+            <label for="phone">电话号码:</label>
+            <input type="text" id="phone">
+        </div>
+        <div class="form-group">
+            <label for="department">院系:</label>
+            <input type="text" id="department">
+        </div>
+        <div class="form-group">
+            <label for="major">专业:</label>
+            <input type="text" id="major">
+        </div>
+        <div class="form-group">
+            <label for="identity">身份证号:</label>
+            <input type="text" id="identity">
+        </div>
+        <div class="form-group">
+            <label for="status">入党阶段:</label>
+            <input type="text" id="status" readonly>
+        </div>
+        <div class="form-group">
+            <label for="username">用户名:</label>
+            <input type="text" id="username" readonly>
+        </div>
+        <button type="button" onclick="updateStudentInfo()" class="btn btn-primary">修改信息</button>
+    </form>
+
+    <h2>修改密码</h2>
+    <form id="passwordForm">
+        <div class="form-group">
+            <label for="currentPassword">当前密码:</label>
+            <input type="password" id="currentPassword">
+        </div>
+        <div class="form-group">
+            <label for="newPassword">新密码:</label>
+            <input type="password" id="newPassword">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">确认密码:</label>
+            <input type="password" id="confirmPassword">
+        </div>
+        <button type="button" onclick="changePassword()" class="btn btn-primary">修改密码</button>
+    </form>
+
+    <button type="button" onclick="goBack()" class="btn btn-secondary">返回</button>
+</div>
+
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script>
+    // 获取当前登录学生的信息
+    function fetchStudentInfo() {
+        $.ajax({
+            url: '/student/find',
+            method: 'GET',
+            success: function (result) {
+                populateStudentInfo(result.data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Failed to fetch student info:', error);
+            }
+        });
+    }
+
+    // 填充表单数据
+    function populateStudentInfo(student) {
+        $('#id').val(student.id);
+        $('#name').val(student.name);
+        $('#sex').val(student.sex);
+        $('#clazz').val(student.clazz);
+        $('#phone').val(student.phone);
+        $('#department').val(student.department);
+        $('#major').val(student.major);
+        $('#identity').val(student.identity);
+        $('#status').val(['普通学生', '积极分子', '预备党员', '党员'][student.status]);
+        $('#username').val(student.username);
+    }
+
+    // 修改学生信息
+    function updateStudentInfo() {
+        const studentData = {
+            "id": $('#id').val(),
+            "name": $('#name').val(),
+            "sex": $('#sex').val(),
+            "clazz": $('#clazz').val(),
+            "phone": $('#phone').val(),
+            "department": $('#department').val(),
+            "major": $('#major').val(),
+            "identity": $('#identity').val()
+        };
+
+        $.ajax({
+            url: '/student/update',
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            data: JSON.stringify(studentData),
+            success: function (result) {
+                if (result.code === 200) {
+                    alert("修改成功");
+                    fetchStudentInfo()
+                }else {
+                    alert(result.msg)
+                }
+            },
+            error: function () {
+                alert('系统异常');
+            }
+        });
+    }
+
+    // 修改密码
+    function changePassword() {
+        const passwordData = {
+            currentPassword: $('#currentPassword').val(),
+            newPassword: $('#newPassword').val(),
+            confirmPassword: $('#confirmPassword').val()
+        };
+
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            alert('新密码和确认密码不一致');
+            return;
+        }
+
+        $.ajax({
+            url: '/user/updatePassword',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
+            data: JSON.stringify(passwordData),
+            success: function (result) {
+                if (result.code === 200) {
+                    alert('密码修改成功');
+                    $('#currentPassword').val('');
+                    $('#newPassword').val('');
+                    $('#confirmPassword').val('');
+                }else {
+                    alert(result.msg)
+                }
+            },
+            error: function () {
+                alert('系统异常');
+            }
+        });
+    }
+
+    // 返回到index.html页面
+    function goBack() {
+        window.location.href = 'index.html';
+    }
+
+    // 页面加载时获取学生信息
+    $(document).ready(function () {
+        fetchStudentInfo();
+    });
+</script>
+</body>
+</html>

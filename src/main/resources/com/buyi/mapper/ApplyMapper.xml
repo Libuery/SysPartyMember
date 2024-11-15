@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buyi.mapper.ApplyMapper">
+    <insert id="insert">
+        insert into uml.apply(sid, sName, content, type, status)
+        values (#{sid}, #{sName}, #{content}, #{type}, #{status})
+    </insert>
+
+    <update id="update">
+        update uml.apply
+        <set>
+            <if test="sid != null and sid != ''">sid = #{sid},</if>
+            <if test="sName != null and sName != ''">sName = #{sName},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="status != null and status != ''">status = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
