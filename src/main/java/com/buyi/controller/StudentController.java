@@ -27,6 +27,13 @@ public class StudentController {
         return Result.ok(studentVoList);
     }
 
+    /**
+     * 分页查询学生信息
+     *
+     * @param page 当前页码，默认为1
+     * @param size 每页记录数，默认为10
+     * @return 返回一个PageResult对象，其中包含分页信息和学生列表
+     */
     @GetMapping("/page")
     public Result<PageResult> pageQuery(@RequestParam(defaultValue = "1") int page,
                                         @RequestParam(defaultValue = "10") int size) {
@@ -34,6 +41,12 @@ public class StudentController {
         return Result.ok(pageResult);
     }
 
+    /**
+     * 根据id查找学生信息
+     *
+     * @param id 学生的id
+     * @return 返回一个Result对象，其中包含学生信息（Student）
+     */
     @GetMapping("/find/{id}")
     public Result<Student> find(@PathVariable Integer id) {
         Student student = studentService.findById(id);
@@ -59,12 +72,24 @@ public class StudentController {
         return Result.ok(studentVo);
     }
 
+    /**
+     * 管理员添加学生信息
+     *
+     * @param student 包含学生信息的对象，通过请求参数自动填充
+     * @return Result对象
+     */
     @PostMapping("/save")
     public Result<String> save(@ModelAttribute Student student) {
         studentService.save(student);
         return Result.ok();
     }
 
+    /**
+     * 管理员删除学生信息
+     *
+     * @param id 要删除的学生的id，通过路径参数传递
+     * @return Result对象
+     */
     @GetMapping("/delete/{id}")
     public Result<String> delete(@PathVariable Integer id) {
         studentService.delete(id);

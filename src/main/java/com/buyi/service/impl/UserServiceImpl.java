@@ -79,8 +79,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(User user) {
-        if (user.getUsername() == null || user.getPassword() == null) {
+        if (user.getUsername() == null || user.getPassword() == null || user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
             throw new BizException("用户名和密码不能为空");
+        }
+
+        if (user.getSid() == null) {
+            throw new BizException("学号不能为空");
         }
 
         //查询学生是否存在

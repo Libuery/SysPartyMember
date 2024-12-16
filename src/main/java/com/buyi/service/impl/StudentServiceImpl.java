@@ -8,12 +8,14 @@ import com.buyi.entity.vo.StudentVo;
 import com.buyi.exception.BizException;
 import com.buyi.mapper.ScoreMapper;
 import com.buyi.mapper.StudentMapper;
+import com.buyi.mapper.UserMapper;
 import com.buyi.service.StudentService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Resource
     private StudentMapper studentMapper;
+    @Resource
+    private UserMapper userMapper;
     @Resource
     private ScoreMapper scoreMapper;
 
@@ -142,12 +146,20 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         if (id == null) {
             throw new BizException("参数不合法");
         }
+        // 删除学生信息
         int row = studentMapper.deleteById(id);
-        if (row < 0) {
+        // 删除用户信息
+        User user = userMapper.getBySid(id);
+        int r = 1;
+        if (user != null) {
+            r = userMapper.deleteBySid(id);
+        }
+        if (row != 1 || r != 1) {
             throw new BizException("删除失败");
         }
     }
