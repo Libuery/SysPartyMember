@@ -10,7 +10,7 @@ public interface StudentMapper {
     @Select("select * from student where id = #{id}")
     Student getById(Integer id);
 
-    @Select("select * from student")
+    @Select("select * from student order by id desc")
     List<Student> findAll();
 
     int insert(Student student);

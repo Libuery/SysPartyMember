@@ -79,7 +79,7 @@ public class StudentController {
      * @return Result对象
      */
     @PostMapping("/save")
-    public Result<String> save(@ModelAttribute Student student) {
+    public Result<String> save(@RequestBody Student student) {
         studentService.save(student);
         return Result.ok();
     }
@@ -103,7 +103,7 @@ public class StudentController {
      * @return Result对象
      */
     @PostMapping("/updateAdmin")
-    public Result<String> updateAdmin(@ModelAttribute Student student) {
+    public Result<String> updateAdmin(@RequestBody Student student) {
         studentService.update(student);
         return Result.ok();
     }
