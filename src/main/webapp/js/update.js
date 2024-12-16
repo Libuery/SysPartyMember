@@ -22,12 +22,12 @@ $(document).ready(function () {
                     let data = result.data
                     $('#id').val(data.id);
                     $('#studentName').val(data.name);
-                    $('#gender').val(data.sex);
+                    $('#sex').val(data.sex);
                     $('#class').val(data.clazz);
                     $('#phone').val(data.phone);
                     $('#department').val(data.department);
                     $('#major').val(data.major);
-                    $('#idNumber').val(data.identity);
+                    $('#identity').val(data.identity);
                     $('#partyStage').val(data.status);
                 }else {
                     alert(result.msg)
